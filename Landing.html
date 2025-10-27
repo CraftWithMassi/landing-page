@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crafter.dev | Développeur Web & Automatisation</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    html { scroll-behavior: smooth; }
+    .floating-arrow { animation: bounce 1.6s infinite; }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); opacity: 0.8; }
+      50% { transform: translateY(8px); opacity: 1; }
+    }
+    .lang-menu { display: none; }
+    .lang-active .lang-menu { display: block; }
+  </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800 font-[Poppins] relative">
+
+  <!-- Language Switcher -->
+  <div class="absolute top-6 right-6 z-50">
+    <button id="langBtn" class="flex items-center gap-2 bg-white shadow-md px-4 py-2 rounded-full hover:shadow-lg transition">
+      <i data-lucide="globe" class="w-5 h-5 text-blue-600"></i>
+      <span id="currentLang">FR</span>
+    </button>
+    <div id="langMenu" class="lang-menu absolute right-0 mt-2 bg-white rounded-lg shadow-md overflow-hidden">
+      <button data-lang="fr" class="block w-full text-left px-4 py-2 hover:bg-gray-100">🇫🇷 Français</button>
+      <button data-lang="en" class="block w-full text-left px-4 py-2 hover:bg-gray-100">🇬🇧 English</button>
+      <button data-lang="ar" class="block w-full text-left px-4 py-2 hover:bg-gray-100">🇸🇦 العربية</button>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <section class="min-h-[90vh] flex flex-col justify-center items-center text-center px-6 bg-gradient-to-b from-white to-gray-100 relative">
+    <h1 class="text-3xl sm:text-4xl font-bold mb-4"><span data-text="hero-title">Salut, moi c’est</span> <span class="text-blue-600">Crafter</span></h1>
+    <p class="max-w-2xl text-base sm:text-lg text-gray-600 mb-8" data-text="hero-desc">
+      Développeur web & créateur d’automatisations intelligentes.<br>
+      J’aide les créateurs, marques et freelances à gagner du temps grâce à des outils modernes — sites web, intégrations API, chatbots, et plus encore.
+    </p>
+
+    <!-- Buttons -->
+    <div class="flex flex-wrap justify-center gap-3 sm:gap-4">
+      <a href="https://www.tiktok.com/@crafter.dev" target="_blank"
+        class="min-w-[130px] text-center px-5 py-2.5 rounded-full bg-gradient-to-r from-pink-500 to-red-500 text-white font-medium shadow-md hover:shadow-lg hover:scale-105 transition">
+        TikTok
+      </a>
+      <a href="https://www.instagram.com/crafter.dev" target="_blank"
+        class="min-w-[130px] text-center px-5 py-2.5 rounded-full bg-gradient-to-r from-yellow-400 to-pink-500 text-white font-medium shadow-md hover:shadow-lg hover:scale-105 transition">
+        Instagram
+      </a>
+      <a href="https://github.com/crafter-dev" target="_blank"
+        class="min-w-[130px] text-center px-5 py-2.5 rounded-full bg-gradient-to-r from-gray-700 to-gray-900 text-white font-medium shadow-md hover:shadow-lg hover:scale-105 transition">
+        GitHub
+      </a>
+      <a href="#contact"
+        class="min-w-[160px] text-center px-6 py-2.5 rounded-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition" data-text="cta">
+        Réserver un appel
+      </a>
+    </div>
+
+    <!-- Floating arrow -->
+    <div class="absolute bottom-8 text-gray-500 floating-arrow">
+      <a href="#skills">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 mx-auto hover:text-blue-600 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills" class="py-16 px-6 bg-white">
+    <h2 class="text-2xl sm:text-3xl font-semibold text-center mb-10" data-text="skills-title">Mes Compétences</h2>
+    <div class="grid sm:grid-cols-2 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+      <div class="bg-gray-50 p-6 rounded-2xl shadow-lg transform transition hover:-translate-y-2 hover:shadow-2xl">
+        <i data-lucide="code" class="w-10 h-10 text-blue-500 mb-3"></i>
+        <h3 class="font-semibold text-lg sm:text-xl mb-2" data-text="skill1-title">Full Stack Development</h3>
+        <p class="text-gray-600 text-sm sm:text-base" data-text="skill1-desc">Applications modernes avec React, Next.js, Node.js & MongoDB.</p>
+      </div>
+
+      <div class="bg-gray-50 p-6 rounded-2xl shadow-lg transform transition hover:-translate-y-2 hover:shadow-2xl">
+        <i data-lucide="globe" class="w-10 h-10 text-green-500 mb-3"></i>
+        <h3 class="font-semibold text-lg sm:text-xl mb-2" data-text="skill2-title">WordPress</h3>
+        <p class="text-gray-600 text-sm sm:text-base" data-text="skill2-desc">Sites rapides, optimisés SEO et entièrement personnalisés.</p>
+      </div>
+
+      <div class="bg-gray-50 p-6 rounded-2xl shadow-lg transform transition hover:-translate-y-2 hover:shadow-2xl">
+        <i data-lucide="brush" class="w-10 h-10 text-purple-500 mb-3"></i>
+        <h3 class="font-semibold text-lg sm:text-xl mb-2" data-text="skill3-title">Web Design</h3>
+        <p class="text-gray-600 text-sm sm:text-base" data-text="skill3-desc">Designs élégants et ergonomiques pour une expérience optimale.</p>
+      </div>
+
+      <div class="bg-gray-50 p-6 rounded-2xl shadow-lg transform transition hover:-translate-y-2 hover:shadow-2xl">
+        <i data-lucide="bot" class="w-10 h-10 text-orange-500 mb-3"></i>
+        <h3 class="font-semibold text-lg sm:text-xl mb-2" data-text="skill4-title">n8n & Agents IA</h3>
+        <p class="text-gray-600 text-sm sm:text-base" data-text="skill4-desc">Automatisations intelligentes connectant API, IA et outils modernes.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section action="https://formspree.io/f/mdkpagwj" id="contact" class="py-20 px-6 bg-gray-100">
+    <h2 class="text-2xl sm:text-3xl font-semibold text-center mb-8" data-text="contact-title">Parle-moi de ton projet</h2>
+    <form id="contactForm" class="max-w-3xl mx-auto bg-white p-6 sm:p-8 rounded-2xl shadow-lg space-y-6">
+      <div class="grid md:grid-cols-2 gap-6">
+        <div>
+          <label class="block text-sm font-medium mb-1" data-text="form-name">Prénom</label>
+          <input type="text" name="prenom" required class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1" data-text="form-email">Email</label>
+          <input type="email" name="email" required class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500">
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium mb-1" data-text="form-phone">Numéro de téléphone</label>
+        <input type="tel" name="telephone" required class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500">
+      </div>
+
+      <div class="flex flex-wrap gap-6">
+        <label class="flex items-center gap-2">
+          <input type="checkbox" name="has_whatsapp" class="w-4 h-4 text-blue-600">
+          <span class="text-sm">WhatsApp</span>
+        </label>
+        <label class="flex items-center gap-2">
+          <input type="checkbox" name="has_viber" class="w-4 h-4 text-purple-600">
+          <span class="text-sm">Viber</span>
+        </label>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium mb-1" data-text="form-project">Parle-moi de ton projet</label>
+        <textarea name="projet" rows="5" required class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500"></textarea>
+      </div>
+
+      <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition" data-text="form-submit">
+        Envoyer ma demande
+      </button>
+    </form>
+  </section>
+
+  <footer class="py-6 text-center text-gray-500 text-sm">
+    © 2025 Crafter.dev — Tous droits réservés.
+  </footer>
+
+  <script>
+    lucide.createIcons();
+
+    // Language switcher
+    const langBtn = document.getElementById('langBtn');
+    const langMenu = document.getElementById('langMenu');
+    const currentLang = document.getElementById('currentLang');
+    const texts = document.querySelectorAll('[data-text]');
+
+    const translations = {
+      fr: { "hero-title":"Salut, moi c’est", "hero-desc":"Développeur web & créateur d’automatisations intelligentes. J’aide les créateurs, marques et freelances à gagner du temps grâce à des outils modernes — sites web, intégrations API, chatbots, et plus encore.", "cta":"Réserver un appel","skills-title":"Mes Compétences","skill1-title":"Full Stack Development","skill1-desc":"Applications modernes avec React, Next.js, Node.js & MongoDB.","skill2-title":"WordPress","skill2-desc":"Sites rapides, optimisés SEO et entièrement personnalisés.","skill3-title":"Web Design","skill3-desc":"Designs élégants et ergonomiques pour une expérience optimale.","skill4-title":"n8n & Agents IA","skill4-desc":"Automatisations intelligentes connectant API, IA et outils modernes.","contact-title":"Parle-moi de ton projet","form-name":"Prénom","form-email":"Email","form-phone":"Numéro de téléphone","form-project":"Parle-moi de ton projet","form-submit":"Envoyer ma demande"},
+      en: { "hero-title":"Hi, I’m","hero-desc":"Web developer & automation creator. I help creators, brands and freelancers save time using modern tools — websites, API integrations, chatbots and more.","cta":"Book a call","skills-title":"My Skills","skill1-title":"Full Stack Development","skill1-desc":"Modern apps with React, Next.js, Node.js & MongoDB.","skill2-title":"WordPress","skill2-desc":"Fast, SEO-friendly and fully customized sites.","skill3-title":"Web Design","skill3-desc":"Clean and elegant designs for the best user experience.","skill4-title":"n8n & AI Agents","skill4-desc":"Smart automations connecting APIs, AI and modern tools.","contact-title":"Tell me about your project","form-name":"First name","form-email":"Email","form-phone":"Phone number","form-project":"Tell me about your project","form-submit":"Send my request"},
+      ar: { "hero-title":"مرحباً، أنا","hero-desc":"مطور ويب ومُنشئ أتمتة ذكية. أساعد المبدعين والعلامات التجارية والمستقلين على توفير الوقت باستخدام أدوات حديثة — مواقع إلكترونية، تكاملات API، وروبوتات دردشة.","cta":"احجز مكالمة","skills-title":"مهاراتي","skill1-title":"تطوير الويب الكامل","skill1-desc":"تطبيقات حديثة باستخدام React و Next.js و Node.js.","skill2-title":"ووردبريس","skill2-desc":"مواقع سريعة ومتوافقة مع SEO وقابلة للتخصيص بالكامل.","skill3-title":"تصميم الويب","skill3-desc":"تصاميم أنيقة وسهلة الاستخدام لتجربة مثالية.","skill4-title":"n8n و وكلاء الذكاء الاصطناعي","skill4-desc":"أتمتة ذكية تربط واجهات API والذكاء الاصطناعي وأحدث الأدوات.","contact-title":"تحدث لي عن مشروعك","form-name":"الاسم","form-email":"البريد الإلكتروني","form-phone":"رقم الهاتف","form-project":"حدثني عن مشروعك","form-submit":"إرسال"}
+    };
+
+    langBtn.addEventListener('click', () => langMenu.classList.toggle('lang-menu'));
+    document.querySelectorAll('#langMenu button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const lang = btn.dataset.lang;
+        currentLang.textContent = lang.toUpperCase();
+        texts.forEach(el => {
+          const key = el.dataset.text;
+          if (translations[lang][key]) el.textContent = translations[lang][key];
+        });
+        langMenu.classList.remove('lang-menu');
+      });
+    });
+
+    // Telegram Integration
+    document.getElementById('contactForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const botToken = "7951898621:AAEV97wosyqcv5aDtvYR9_jAgNQ4oRsM8l8";
+      const chatId = "5586893191";
+      const formData = new FormData(this);
+      const message = `
+🚀 Nouvelle demande de contact
+👤 Prénom: ${formData.get('prenom')}
+📧 Email: ${formData.get('email')}
+📱 Téléphone: ${formData.get('telephone')}
+💬 WhatsApp: ${formData.get('has_whatsapp') ? 'Oui' : 'Non'}
+📞 Viber: ${formData.get('has_viber') ? 'Oui' : 'Non'}
+📝 Projet: ${formData.get('projet')}
+      `;
+      await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: chatId, text: message, parse_mode: "Markdown" })
+      });
+      alert("Merci ! Ton message a bien été envoyé 📩");
+      this.reset();
+    });
+  </script>
+</body>
+</html>
