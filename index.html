@@ -151,15 +151,22 @@
     © 2025 Crafter.dev — Tous droits réservés.
   </footer>
 
+  <!-- Popup -->
+  <div id="popup" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+    <div class="bg-white p-6 rounded-2xl shadow-xl w-[90%] max-w-sm text-center">
+      <p id="popupMessage" class="text-gray-700 text-lg font-medium mb-4"></p>
+      <button id="popupClose" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">OK</button>
+    </div>
+  </div>
+
   <script>
     lucide.createIcons();
 
-    // Lang menu toggle
+    // Language logic
     const langBtn = document.getElementById('langBtn');
     const langMenu = document.getElementById('langMenu');
     const currentLang = document.getElementById('currentLang');
     const texts = document.querySelectorAll('[data-text]');
-
     const translations = {
       en: {
         "hero-title": "Hi, I'm",
@@ -200,7 +207,17 @@
       });
     });
 
-    // Contact form submission
+    // Popup handler
+    const popup = document.getElementById('popup');
+    const popupMsg = document.getElementById('popupMessage');
+    const popupClose = document.getElementById('popupClose');
+    popupClose.addEventListener('click', () => popup.classList.add('hidden'));
+    function showPopup(msg) {
+      popupMsg.textContent = msg;
+      popup.classList.remove('hidden');
+    }
+
+    // Form submission
     document.getElementById('contactForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       const formData = new FormData(this);
@@ -211,20 +228,16 @@
       try {
         const response = await fetch("https://backend-dfsp.onrender.com/send-telegram", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-site-secret": "crafter_2025_secret"
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload)
         });
 
         if (!response.ok) throw new Error("Server error");
-
-        alert("Merci ! Ton message a bien été envoyé 📩");
+        showPopup("Merci ! Ton message a bien été envoyé 📩");
         this.reset();
       } catch (error) {
         console.error(error);
-        alert("Erreur lors de l’envoi, réessaie plus tard 😢");
+        showPopup("Erreur lors de l’envoi, réessaie plus tard 😢");
       }
     });
   </script>
