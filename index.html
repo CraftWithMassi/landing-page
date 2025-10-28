@@ -16,7 +16,7 @@
       50% { transform: translateY(8px); opacity: 1; }
     }
     .lang-menu { display: none; }
-    .lang-active .lang-menu { display: block; }
+    .show-menu { display: block; }
   </style>
 </head>
 
@@ -37,7 +37,9 @@
 
   <!-- Hero -->
   <section class="min-h-[90vh] flex flex-col justify-center items-center text-center px-6 bg-gradient-to-b from-white to-gray-100 relative">
-    <h1 class="text-3xl sm:text-4xl font-bold mb-4"><span data-text="hero-title">Salut, moi c’est</span> <span class="text-blue-600">Crafter</span></h1>
+    <h1 class="text-3xl sm:text-4xl font-bold mb-4">
+      <span data-text="hero-title">Salut, moi c’est</span> <span class="text-blue-600">Crafter</span>
+    </h1>
     <p class="max-w-2xl text-base sm:text-lg text-gray-600 mb-8" data-text="hero-desc">
       Développeur web & créateur d’automatisations intelligentes.<br>
       J’aide les créateurs, marques et freelances à gagner du temps grâce à des outils modernes — sites web, intégrations API, chatbots, et plus encore.
@@ -78,19 +80,19 @@
     <h2 class="text-2xl sm:text-3xl font-semibold text-center mb-10" data-text="skills-title">Mes Compétences</h2>
     <div class="grid sm:grid-cols-2 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
       <div class="bg-gray-50 p-6 rounded-2xl shadow-lg transform transition hover:-translate-y-2 hover:shadow-2xl">
-        <i data-lucide="code" class="w-10 h-10 text-blue-500 mb-3"></i>
+        <i data-lucide="code-2" class="w-10 h-10 text-blue-500 mb-3"></i>
         <h3 class="font-semibold text-lg sm:text-xl mb-2" data-text="skill1-title">Full Stack Development</h3>
         <p class="text-gray-600 text-sm sm:text-base" data-text="skill1-desc">Applications modernes avec React, Next.js, Node.js & MongoDB.</p>
       </div>
 
       <div class="bg-gray-50 p-6 rounded-2xl shadow-lg transform transition hover:-translate-y-2 hover:shadow-2xl">
-        <i data-lucide="globe" class="w-10 h-10 text-green-500 mb-3"></i>
+        <i data-lucide="wordpress" class="w-10 h-10 text-green-500 mb-3"></i>
         <h3 class="font-semibold text-lg sm:text-xl mb-2" data-text="skill2-title">WordPress</h3>
         <p class="text-gray-600 text-sm sm:text-base" data-text="skill2-desc">Sites rapides, optimisés SEO et entièrement personnalisés.</p>
       </div>
 
       <div class="bg-gray-50 p-6 rounded-2xl shadow-lg transform transition hover:-translate-y-2 hover:shadow-2xl">
-        <i data-lucide="brush" class="w-10 h-10 text-purple-500 mb-3"></i>
+        <i data-lucide="palette" class="w-10 h-10 text-purple-500 mb-3"></i>
         <h3 class="font-semibold text-lg sm:text-xl mb-2" data-text="skill3-title">Web Design</h3>
         <p class="text-gray-600 text-sm sm:text-base" data-text="skill3-desc">Designs élégants et ergonomiques pour une expérience optimale.</p>
       </div>
@@ -152,41 +154,76 @@
   <script>
     lucide.createIcons();
 
-    // Lang switcher
+    // Lang menu toggle
     const langBtn = document.getElementById('langBtn');
     const langMenu = document.getElementById('langMenu');
     const currentLang = document.getElementById('currentLang');
     const texts = document.querySelectorAll('[data-text]');
-    const translations = { /* same translations as before */ };
 
-    langBtn.addEventListener('click', () => langMenu.classList.toggle('lang-menu'));
+    const translations = {
+      en: {
+        "hero-title": "Hi, I'm",
+        "hero-desc": "Web developer & automation builder helping creators, brands, and freelancers save time with smart tools.",
+        "cta": "Book a Call",
+        "skills-title": "My Skills",
+        "contact-title": "Tell me about your project",
+        "form-name": "First Name",
+        "form-email": "Email",
+        "form-phone": "Phone Number",
+        "form-project": "Tell me about your project",
+        "form-submit": "Send Message"
+      },
+      ar: {
+        "hero-title": "مرحبًا، أنا",
+        "hero-desc": "مطور مواقع ومنشئ أتمتة أساعد المبدعين والعلامات التجارية والمستقلين على توفير الوقت بأدوات ذكية.",
+        "cta": "احجز مكالمة",
+        "skills-title": "مهاراتي",
+        "contact-title": "تحدث لي عن مشروعك",
+        "form-name": "الاسم",
+        "form-email": "البريد الإلكتروني",
+        "form-phone": "رقم الهاتف",
+        "form-project": "أخبرني عن مشروعك",
+        "form-submit": "إرسال الرسالة"
+      }
+    };
+
+    langBtn.addEventListener('click', () => langMenu.classList.toggle('show-menu'));
     document.querySelectorAll('#langMenu button').forEach(btn => {
       btn.addEventListener('click', () => {
         const lang = btn.dataset.lang;
         currentLang.textContent = lang.toUpperCase();
         texts.forEach(el => {
           const key = el.dataset.text;
-          if (translations[lang][key]) el.textContent = translations[lang][key];
+          if (translations[lang] && translations[lang][key]) el.textContent = translations[lang][key];
         });
-        langMenu.classList.remove('lang-menu');
+        langMenu.classList.remove('show-menu');
       });
     });
 
-    // Secure Telegram API via backend
+    // Contact form submission
     document.getElementById('contactForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       const formData = new FormData(this);
       const payload = Object.fromEntries(formData.entries());
+      payload.has_whatsapp = formData.has('has_whatsapp');
+      payload.has_viber = formData.has('has_viber');
 
       try {
-        await fetch("https://backend-craftwithmassi.onrender.com/send", {
+        const response = await fetch("https://backend-dfsp.onrender.com/send-telegram", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            "x-site-secret": "crafter_2025_secret"
+          },
           body: JSON.stringify(payload)
         });
+
+        if (!response.ok) throw new Error("Server error");
+
         alert("Merci ! Ton message a bien été envoyé 📩");
         this.reset();
       } catch (error) {
+        console.error(error);
         alert("Erreur lors de l’envoi, réessaie plus tard 😢");
       }
     });
