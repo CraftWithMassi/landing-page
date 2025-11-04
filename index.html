@@ -17,13 +17,29 @@
     }
     .lang-menu { display: none; }
     .show-menu { display: block; }
+
+    /* ✅ Blur effect */
+    .blurred {
+      filter: blur(4px);
+      pointer-events: none;
+      user-select: none;
+    }
   </style>
 </head>
 
 <body class="bg-gray-50 text-gray-800 font-[Poppins] relative">
 
+  <!-- ✅ GLOBAL LOADING OVERLAY -->
+  <div id="globalLoader" class="hidden fixed inset-0 bg-black/40 flex flex-col items-center justify-center z-50">
+    <div class="w-10 h-10 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+    <p id="loaderText" class="text-white mt-4 text-lg font-medium"></p>
+  </div>
+
+  <!-- ✅ WRAPPER FOR BLUR EFFECT -->
+  <div id="pageContent">
+
   <!-- Language Switcher -->
-  <div class="absolute top-6 right-6 z-50">
+  <div class="absolute top-6 right-6 z-40">
     <button id="langBtn" class="flex items-center gap-2 bg-white shadow-md px-4 py-2 rounded-full hover:shadow-lg transition">
       <i data-lucide="globe" class="w-5 h-5 text-blue-600"></i>
       <span id="currentLang">FR</span>
@@ -108,6 +124,7 @@
   <!-- Contact -->
   <section id="contact" class="py-20 px-6 bg-gray-100">
     <h2 class="text-2xl sm:text-3xl font-semibold text-center mb-8" data-text="contact-title">Parle-moi de ton projet</h2>
+
     <form id="contactForm" class="max-w-3xl mx-auto bg-white p-6 sm:p-8 rounded-2xl shadow-lg space-y-6">
       <div class="grid md:grid-cols-2 gap-6">
         <div>
@@ -141,7 +158,9 @@
         <textarea name="projet" rows="5" required class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500"></textarea>
       </div>
 
-      <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition" data-text="form-submit">
+      <button id="submitBtn" type="submit"
+        class="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition"
+        data-text="form-submit">
         Envoyer ma demande
       </button>
     </form>
@@ -150,6 +169,8 @@
   <footer class="py-6 text-center text-gray-500 text-sm">
     © 2025 Crafter.dev — Tous droits réservés.
   </footer>
+
+  </div> <!-- END PAGE CONTENT WRAPPER -->
 
   <!-- Popup -->
   <div id="popup" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
@@ -162,11 +183,14 @@
   <script>
     lucide.createIcons();
 
-    // Language logic
     const langBtn = document.getElementById('langBtn');
     const langMenu = document.getElementById('langMenu');
     const currentLang = document.getElementById('currentLang');
     const texts = document.querySelectorAll('[data-text]');
+    const pageContent = document.getElementById("pageContent");
+    const globalLoader = document.getElementById("globalLoader");
+    const loaderText = document.getElementById("loaderText");
+
     const translations = {
       en: {
         "hero-title": "Hi, I'm",
@@ -178,7 +202,8 @@
         "form-email": "Email",
         "form-phone": "Phone Number",
         "form-project": "Tell me about your project",
-        "form-submit": "Send Message"
+        "form-submit": "Send Message",
+        "loading": "Just a second..."
       },
       ar: {
         "hero-title": "مرحبًا، أنا",
@@ -190,7 +215,11 @@
         "form-email": "البريد الإلكتروني",
         "form-phone": "رقم الهاتف",
         "form-project": "أخبرني عن مشروعك",
-        "form-submit": "إرسال الرسالة"
+        "form-submit": "إرسال الرسالة",
+        "loading": "ثانية واحدة..."
+      },
+      fr: {
+        "loading": "Juste un instant..."
       }
     };
 
@@ -207,7 +236,6 @@
       });
     });
 
-    // Popup handler
     const popup = document.getElementById('popup');
     const popupMsg = document.getElementById('popupMessage');
     const popupClose = document.getElementById('popupClose');
@@ -217,9 +245,16 @@
       popup.classList.remove('hidden');
     }
 
-    // Form submission
+    // ✅ FORM LOGIC WITH GLOBAL LOADER
     document.getElementById('contactForm').addEventListener('submit', async function(e) {
       e.preventDefault();
+
+      const lang = currentLang.textContent.toLowerCase();
+      loaderText.textContent = translations[lang]?.loading || "Juste un instant...";
+
+      pageContent.classList.add("blurred");
+      globalLoader.classList.remove("hidden");
+
       const formData = new FormData(this);
       const payload = Object.fromEntries(formData.entries());
       payload.has_whatsapp = formData.has('has_whatsapp');
@@ -232,11 +267,18 @@
           body: JSON.stringify(payload)
         });
 
+        pageContent.classList.remove("blurred");
+        globalLoader.classList.add("hidden");
+
         if (!response.ok) throw new Error("Server error");
-        showPopup("Merci ! Ton message a bien été envoyé 📩");
+
         this.reset();
-      } catch (error) {
-        console.error(error);
+        showPopup("Merci ! Ton message a bien été envoyé 📩");
+
+      } catch (err) {
+        console.log(err);
+        pageContent.classList.remove("blurred");
+        globalLoader.classList.add("hidden");
         showPopup("Erreur lors de l’envoi, réessaie plus tard 😢");
       }
     });
